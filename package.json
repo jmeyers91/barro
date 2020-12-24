@@ -1,12 +1,27 @@
 {
   "name": "barrelboy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "lib/index.js",
   "bin": "lib/cli.js",
+  "keywords": [
+    "barrel",
+    "index",
+    "typescript",
+    "generation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmeyers91/barrelboy.git"
+  },
+  "author": "James Meyers",
+  "bugs": {
+    "url": "https://github.com/jmeyers91/barrelboy/issues"
+  },
+  "homepage": "https://github.com/jmeyers91/barrelboy#readme",
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc"
+    "build": "tsc && chmod +x lib/cli.js"
   },
   "devDependencies": {
     "@types/globby": "^9.1.0",

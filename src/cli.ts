@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { join, isAbsolute, parse } from "path";
 import { existsSync, writeFileSync } from "fs";
 import Handlebars from "handlebars";
@@ -5,13 +7,21 @@ import { parseBarrels } from "./Barrel";
 import { compileBarrel } from "./compileBarrel";
 import { watchBarrelFiles } from "./watchBarrelFiles";
 
+const flags = {
+  watch: "--watch",
+  write: "--write",
+};
+const allFlags = Object.values(flags);
+
 main();
 async function main() {
   try {
-    const barrelConfigPath = process.argv[2];
     const args = process.argv.slice(2);
-    const watch = args.includes("--watch");
-    const write = args.includes("--write");
+    // Find first non-flag argument
+    const barrelConfigPath =
+      args.find((arg) => !allFlags.includes(arg)) ?? "./barrels.js";
+    const watch = args.includes(flags.watch);
+    const write = args.includes(flags.write);
     const barrelConfigFullPath = isAbsolute(barrelConfigPath)
       ? barrelConfigPath
       : join(process.cwd(), barrelConfigPath);
@@ -31,9 +41,12 @@ async function main() {
         : barrelConfigExport
     ).map((barrelConfig) => ({
       ...barrelConfig,
-      // Make relative barrel paths absolute relative to the barrel config file
-      path: join(barrelConfigDir, barrelConfig.path),
-      matchDirectory: join(barrelConfigDir, barrelConfig.matchDirectory),
+      // Fix relative paths
+      path: maybeRelative(barrelConfig.path, barrelConfigDir),
+      matchDirectory: maybeRelative(
+        barrelConfig.matchDirectory,
+        barrelConfigDir
+      ),
     }));
 
     if (watch) {
@@ -72,4 +85,8 @@ async function main() {
     console.error(error);
     process.exit(1);
   }
+}
+
+function maybeRelative(filepath: string, root: string): string {
+  return isAbsolute(filepath) ? filepath : join(root, filepath);
 }
