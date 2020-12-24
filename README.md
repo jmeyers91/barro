@@ -7,16 +7,16 @@ Flexible barrel file generation for Javascript and Typescript with watching buil
 Build barrels once
 
 ```
-npx barrelboy barrels.js --write
+npx barrelboy --write
 ```
 
 Build barrels and rebuild when relevant files are added or removed.
 
 ```
-npx barrelboy barrels.js --write --watch
+npx barrelboy --write --watch
 ```
 
-The `barrels.js` file defines everything needed to watch your source files and generate barrel files when files are added or deleted. Here's an example barrel file that defines two barrels.
+Define your barrels in `./barrelboy.js`:
 
 ```js
 module.exports = () => [
@@ -31,6 +31,12 @@ module.exports = () => [
     match: "**/*.ts",
   },
 ];
+```
+
+Alternatively, you can pass the path of your barrelboy config file:
+
+```
+npx barrelboy barrel-config.js --write --watch
 ```
 
 ## Config

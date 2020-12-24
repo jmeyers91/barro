@@ -24,7 +24,7 @@ async function main() {
     const args = process.argv.slice(2);
     // Find first non-flag argument
     const barrelConfigPath =
-      args.find((arg) => !allFlags.includes(arg)) ?? "./barrels.js";
+      args.find((arg) => !allFlags.includes(arg)) ?? "./barrelboy.js";
     const watch = args.includes(flags.watch);
     const write = args.includes(flags.write);
     const logVersion = args.includes(flags.version);

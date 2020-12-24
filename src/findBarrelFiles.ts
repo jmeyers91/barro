@@ -11,7 +11,6 @@ export async function findBarrelFiles({
 }: Pick<Barrel, "path" | "match" | "matchDirectory" | "matchIgnore">): Promise<
   BarrelFile[]
 > {
-  console.log("dir", path);
   const relativePaths = await globby(match, {
     cwd: matchDirectory,
     // Ignore the index file being generated
