@@ -62,15 +62,27 @@ async function main() {
       ),
     }));
 
+    if (write) {
+      console.log("Building barrels");
+      await Promise.all(
+        barrelConfigs.map(async (barrelConfig) => {
+          console.log(
+            `${join(
+              barrelConfig.matchDirectory,
+              barrelConfig.match.toString()
+            )} -> ${barrelConfig.out}`
+          );
+          const barrelSource = await compileBarrel(barrelConfig);
+          if (write) {
+            writeFileSync(barrelConfig.out, barrelSource, "utf8");
+          }
+        })
+      );
+    }
+
     if (watch) {
       console.log("Watching barrels");
       for (const barrelConfig of barrelConfigs) {
-        console.log(
-          `${join(
-            barrelConfig.matchDirectory,
-            barrelConfig.match.toString()
-          )} -> ${barrelConfig.out}`
-        );
         watchBarrelFiles(barrelConfig, async (eventType, path) => {
           console.log(
             `Change detected: ${eventType} ${path} - compiling barrel file ${barrelConfig.out}`
@@ -81,18 +93,6 @@ async function main() {
           }
         });
       }
-    } else {
-      await Promise.all(
-        barrelConfigs.map(async (barrelConfig) => {
-          const barrelSource = await compileBarrel(barrelConfig);
-          if (write) {
-            writeFileSync(barrelConfig.out, barrelSource, "utf8");
-          } else {
-            console.log(barrelConfig.out);
-            console.log(barrelSource);
-          }
-        })
-      );
     }
   } catch (error) {
     console.error(error);
