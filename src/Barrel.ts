@@ -1,10 +1,11 @@
+import { parse } from "path";
 import { BarrelTemplateFn } from "./BarrelTemplateFn";
 
 export interface Barrel {
   /**
    * The path to the generated barrel file.
    */
-  path: string;
+  out: string;
 
   /**
    * The root directory used when searching for files.
@@ -41,22 +42,21 @@ export function parseBarrel(value: unknown): Barrel {
     throw new Error("Invalid barrel config. Config must be an object.");
   }
 
-  const {
-    path,
-    matchDirectory,
-    match,
-    matchIgnore,
-    template,
-  } = value as Record<string, unknown>;
+  const { out, matchDirectory, match, matchIgnore, template } = value as Record<
+    string,
+    unknown
+  >;
 
-  if (typeof path !== "string") {
-    throw new Error(`Expected path to be a string. Got ${typeof path}.`);
+  if (typeof out !== "string") {
+    throw new Error(`Expected out to be a string. Got ${typeof out}.`);
   }
 
-  if (typeof matchDirectory !== "string") {
-    throw new Error(
-      `Expected matchDirectory to be a string. Got ${typeof matchDirectory}.`
-    );
+  // Default the match directory to the directory the index is being output into.
+  let parsedMatchDirectory: string;
+  if (typeof matchDirectory === "string") {
+    parsedMatchDirectory = matchDirectory;
+  } else {
+    parsedMatchDirectory = parse(out).dir;
   }
 
   const parsedMatch =
@@ -69,8 +69,8 @@ export function parseBarrel(value: unknown): Barrel {
   const parsedTemplate = typeof template === "string" ? template : undefined;
 
   return {
-    path,
-    matchDirectory,
+    out,
+    matchDirectory: parsedMatchDirectory,
     template: parsedTemplate,
     matchIgnore: parsedMatchIgnore,
     match: parsedMatch,

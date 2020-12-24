@@ -55,7 +55,7 @@ async function main() {
     ).map((barrelConfig) => ({
       ...barrelConfig,
       // Fix relative paths
-      path: maybeRelative(barrelConfig.path, barrelConfigDir),
+      out: maybeRelative(barrelConfig.out, barrelConfigDir),
       matchDirectory: maybeRelative(
         barrelConfig.matchDirectory,
         barrelConfigDir
@@ -69,15 +69,15 @@ async function main() {
           `${join(
             barrelConfig.matchDirectory,
             barrelConfig.match.toString()
-          )} -> ${barrelConfig.path}`
+          )} -> ${barrelConfig.out}`
         );
         watchBarrelFiles(barrelConfig, async (eventType, path) => {
           console.log(
-            `Change detected: ${eventType} ${path} - compiling barrel file ${barrelConfig.path}`
+            `Change detected: ${eventType} ${path} - compiling barrel file ${barrelConfig.out}`
           );
           const barrelSource = await compileBarrel(barrelConfig);
           if (write) {
-            writeFileSync(barrelConfig.path, barrelSource, "utf8");
+            writeFileSync(barrelConfig.out, barrelSource, "utf8");
           }
         });
       }
@@ -86,9 +86,9 @@ async function main() {
         barrelConfigs.map(async (barrelConfig) => {
           const barrelSource = await compileBarrel(barrelConfig);
           if (write) {
-            writeFileSync(barrelConfig.path, barrelSource, "utf8");
+            writeFileSync(barrelConfig.out, barrelSource, "utf8");
           } else {
-            console.log(barrelConfig.path);
+            console.log(barrelConfig.out);
             console.log(barrelSource);
           }
         })

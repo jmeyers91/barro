@@ -4,11 +4,11 @@ import { Barrel } from "./Barrel";
 import { BarrelFile } from "./BarrelFile";
 
 export async function findBarrelFiles({
-  path,
+  out,
   match,
   matchDirectory,
-  matchIgnore = [relative(matchDirectory, path), "**/*.test.*"],
-}: Pick<Barrel, "path" | "match" | "matchDirectory" | "matchIgnore">): Promise<
+  matchIgnore = [relative(matchDirectory, out), "**/*.test.*"],
+}: Pick<Barrel, "out" | "match" | "matchDirectory" | "matchIgnore">): Promise<
   BarrelFile[]
 > {
   const relativePaths = await globby(match, {

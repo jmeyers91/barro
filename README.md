@@ -21,13 +21,11 @@ Define your barrels in `./barrelboy.js`:
 ```js
 module.exports = () => [
   {
-    path: "src/models/index.ts",
-    matchDirectory: "src/models",
+    out: "src/models/index.ts",
     match: "**/*Model.ts",
   },
   {
-    path: "src/fns/index.ts",
-    matchDirectory: "src/fns",
+    out: "src/fns/index.ts",
     match: "**/*.ts",
   },
 ];
@@ -41,11 +39,11 @@ npx barrelboy barrel-config.js --write --watch
 
 ## Config
 
-- `path` - The path the barrel file should be written to.
+- `out` - The path the barrel file should be written to.
 - `match` - The glob or array of globs to use when searching for files to include in the barrel.
-- `matchDirectory` - The root directory to search for files to include in the barrel.
-- `matchIgnore` - The optional array of globs to ignore when seaching for files. Default: `[path, "**/*.test.*"]`
-- `template` - The [handlebars](https://www.npmjs.com/package/handlebars) template string or function to use when generating barrel files. Defaults to `export * from './file/path'` for every matched file.
+- `matchDirectory` - The root directory to use when searching for files. Default: `path.parse(out).dir`
+- `matchIgnore` - The optional array of globs to ignore when seaching for files. Default: `[out, "**/*.test.*"]`
+- `template` - The [handlebars](https://www.npmjs.com/package/handlebars) template string or function to use when generating barrel files. Defaults to `export * from "./file/path";` for every matched file.
 
 ### Custom templates
 
@@ -63,8 +61,7 @@ module.exports = ({ Handlebars }) => {
 
   return [
     {
-      path: "src/models/index.ts",
-      matchDirectory: "src/models",
+      out: "src/models/index.ts",
       match: "**/*Model.ts",
       template: fs.readFileSync("./modelBarrel.hbs", "utf8"),
     },
@@ -79,8 +76,7 @@ You can use plain JS functions to generate custom barrels.
 ```js
 module.exports = () => [
   {
-    path: "src/models/index.ts",
-    matchDirectory: "src/models",
+    out: "src/models/index.ts",
     match: "**/*Model.ts",
     template({ files }) {
       return files

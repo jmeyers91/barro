@@ -17,7 +17,7 @@ export function watchBarrelFiles(
     ignored: [
       ...(barrel.matchIgnore ?? []),
       "**/*.test.*",
-      relative(barrel.matchDirectory, barrel.path),
+      relative(barrel.matchDirectory, barrel.out),
     ],
     ignoreInitial: true,
   });
