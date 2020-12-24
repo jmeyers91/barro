@@ -10,18 +10,31 @@ import { watchBarrelFiles } from "./watchBarrelFiles";
 const flags = {
   watch: "--watch",
   write: "--write",
+  version: "--version",
 };
 const allFlags = Object.values(flags);
 
 main();
 async function main() {
   try {
+    const {
+      name: packageName,
+      version: packageVersion,
+    } = require("../package.json");
     const args = process.argv.slice(2);
     // Find first non-flag argument
     const barrelConfigPath =
       args.find((arg) => !allFlags.includes(arg)) ?? "./barrels.js";
     const watch = args.includes(flags.watch);
     const write = args.includes(flags.write);
+    const logVersion = args.includes(flags.version);
+
+    // Always log the version, but close immediately if the --version flag is used.
+    console.log(`${packageName} v${packageVersion}`);
+    if (logVersion) {
+      process.exit(0);
+    }
+
     const barrelConfigFullPath = isAbsolute(barrelConfigPath)
       ? barrelConfigPath
       : join(process.cwd(), barrelConfigPath);
