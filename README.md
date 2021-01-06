@@ -1,4 +1,4 @@
-# barrelboy
+# barro
 
 Flexible barrel file generation for Javascript and Typescript with watching built-in.
 
@@ -7,16 +7,16 @@ Flexible barrel file generation for Javascript and Typescript with watching buil
 Build barrels once
 
 ```
-npx barrelboy --write
+npx barro --write
 ```
 
 Build barrels and rebuild when relevant files are added or removed.
 
 ```
-npx barrelboy --write --watch
+npx barro --write --watch
 ```
 
-Define your barrels in `./barrelboy.js`:
+Define your barrels in `./barro.js`:
 
 ```js
 module.exports = () => [
@@ -31,10 +31,10 @@ module.exports = () => [
 ];
 ```
 
-Alternatively, you can pass the path of your barrelboy config file:
+Alternatively, you can pass the path of your barro config file:
 
 ```
-npx barrelboy barrel-config.js --write --watch
+npx barro barrel-config.js --write --watch
 ```
 
 ## Config
@@ -47,7 +47,16 @@ npx barrelboy barrel-config.js --write --watch
 
 ### Custom templates
 
-You can include custom barrel templates in your barrel config file using the `template` field. The template can be either a handlebars template string or a function that returns a string.
+You can include custom barrel templates in your barrel config file using the `template` field. The template can be either a handlebars template string or a function that returns a string. Custom templates are provided a `files` input with these fields:
+
+```ts
+{
+  relativePath: string;
+  absolutePath: string;
+  path: string;
+  name: string;
+}
+```
 
 #### Custom handlebars template
 

@@ -1,5 +1,5 @@
 {
-  "name": "barrelboy",
+  "name": "barro",
   "version": "1.0.0",
   "license": "MIT",
   "main": "lib/index.js",
@@ -12,13 +12,13 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jmeyers91/barrelboy.git"
+    "url": "git+https://github.com/jmeyers91/barro.git"
   },
   "author": "James Meyers",
   "bugs": {
-    "url": "https://github.com/jmeyers91/barrelboy/issues"
+    "url": "https://github.com/jmeyers91/barro/issues"
   },
-  "homepage": "https://github.com/jmeyers91/barrelboy#readme",
+  "homepage": "https://github.com/jmeyers91/barro#readme",
   "scripts": {
     "clean": "rm -rf lib",
     "build": "tsc && chmod +x lib/cli.js"
