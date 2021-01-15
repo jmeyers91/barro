@@ -3,9 +3,9 @@
 import { join, isAbsolute, parse } from "path";
 import { existsSync, writeFileSync } from "fs";
 import Handlebars from "handlebars";
-import { parseBarrels } from "./Barrel";
 import { compileBarrel } from "./compileBarrel";
 import { watchBarrelFiles } from "./watchBarrelFiles";
+import { parseBarrels } from "./utils/parseBarrel";
 
 const flags = {
   watch: "--watch",

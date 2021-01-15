@@ -1,20 +1,14 @@
-import { join, parse, relative } from "path";
+import { join, parse } from "path";
 import globby from "globby";
-import { Barrel } from "./Barrel";
-import { BarrelFile } from "./BarrelFile";
+import { Barrel } from "./types/Barrel";
+import { BarrelFile } from "./types/BarrelFile";
+import { getBarrelIgnoreGlobs } from "./getBarrelIgnoreGlobs";
 
-export async function findBarrelFiles({
-  out,
-  match,
-  matchDirectory,
-  matchIgnore = [relative(matchDirectory, out), "**/*.test.*"],
-}: Pick<Barrel, "out" | "match" | "matchDirectory" | "matchIgnore">): Promise<
-  BarrelFile[]
-> {
+export async function findBarrelFiles(barrel: Barrel): Promise<BarrelFile[]> {
+  const { match, matchDirectory } = barrel;
   const relativePaths = await globby(match, {
     cwd: matchDirectory,
-    // Ignore the index file being generated
-    ignore: matchIgnore,
+    ignore: getBarrelIgnoreGlobs(barrel),
   });
 
   return relativePaths.map((relativePath) => {

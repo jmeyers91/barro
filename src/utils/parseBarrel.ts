@@ -1,34 +1,6 @@
-import { parse } from "path";
-import { BarrelTemplateFn } from "./BarrelTemplateFn";
-
-export interface Barrel {
-  /**
-   * The path to the generated barrel file.
-   */
-  out: string;
-
-  /**
-   * The root directory used when searching for files.
-   */
-  matchDirectory: string;
-
-  /**
-   * The glob pattern used to find files included in the generated barrel.
-   */
-  match: string | string[];
-
-  /**
-   * The glob patterns to ignore.
-   * Includes the generated barrel path automatically.
-   */
-  matchIgnore?: string[];
-
-  /**
-   * The handlebars template source to use when generating the barrel.
-   * Defaults to `export * from './file/path';` for every matching file.
-   */
-  template?: string | BarrelTemplateFn;
-}
+import path from "path";
+import { Barrel } from "../types/Barrel";
+import { parseStringArray } from "./parseStringArray";
 
 export function parseBarrels(value: unknown): Barrel[] {
   if (Array.isArray(value)) {
@@ -56,7 +28,7 @@ export function parseBarrel(value: unknown): Barrel {
   if (typeof matchDirectory === "string") {
     parsedMatchDirectory = matchDirectory;
   } else {
-    parsedMatchDirectory = parse(out).dir;
+    parsedMatchDirectory = path.parse(out).dir;
   }
 
   const parsedMatch =
@@ -75,21 +47,4 @@ export function parseBarrel(value: unknown): Barrel {
     matchIgnore: parsedMatchIgnore,
     match: parsedMatch,
   };
-}
-
-function parseStringArray(value: unknown, name: string): string[] {
-  if (!Array.isArray(value)) {
-    throw new Error(`Expected ${name} to be an array. Got ${typeof value}.`);
-  }
-
-  const invalidIndex = value.findIndex((value) => typeof value !== "string");
-  if (invalidIndex !== -1) {
-    throw new Error(
-      `Expected ${name}[${invalidIndex}] value to be a string. Got ${typeof value[
-        invalidIndex
-      ]}.`
-    );
-  }
-
-  return value;
 }

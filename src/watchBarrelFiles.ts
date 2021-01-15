@@ -1,6 +1,6 @@
 import chokidar from "chokidar";
-import { relative } from "path";
-import { Barrel } from "./Barrel";
+import { Barrel } from "./types/Barrel";
+import { getBarrelIgnoreGlobs } from "./getBarrelIgnoreGlobs";
 
 type CancelWatchFn = () => void;
 type OnChangeFn = (
@@ -14,11 +14,7 @@ export function watchBarrelFiles(
 ): CancelWatchFn {
   const watcher = chokidar.watch(barrel.match, {
     cwd: barrel.matchDirectory,
-    ignored: [
-      ...(barrel.matchIgnore ?? []),
-      "**/*.test.*",
-      relative(barrel.matchDirectory, barrel.out),
-    ],
+    ignored: getBarrelIgnoreGlobs(barrel),
     ignoreInitial: true,
   });
 

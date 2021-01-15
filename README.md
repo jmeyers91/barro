@@ -4,18 +4,6 @@ Flexible barrel file generation for Javascript and Typescript with watching buil
 
 ## Usage
 
-Build barrels once
-
-```
-npx barro --write
-```
-
-Build barrels and rebuild when relevant files are added or removed.
-
-```
-npx barro --write --watch
-```
-
 Define your barrels in `./barro.js`:
 
 ```js
@@ -31,6 +19,18 @@ module.exports = () => [
 ];
 ```
 
+Build barrels once:
+
+```
+npx barro --write
+```
+
+Build barrels and rebuild when relevant files are added or removed:
+
+```
+npx barro --write --watch
+```
+
 Alternatively, you can pass the path of your barro config file:
 
 ```
@@ -44,6 +44,9 @@ npx barro barrel-config.js --write --watch
 - `matchDirectory` - The root directory to use when searching for files. Default: `path.parse(out).dir`
 - `matchIgnore` - The optional array of globs to ignore when seaching for files. Default: `[out, "**/*.test.*"]`
 - `template` - The [handlebars](https://www.npmjs.com/package/handlebars) template string or function to use when generating barrel files. Defaults to `export * from "./file/path";` for every matched file.
+- `ignoreBarrels` - Whether or not to ignore `index.*` files. Defaults to `true`.
+- `ignoreTests` - Whether or not to ignore `*.test.*` and `*.spec.*` files. Defaults to `true`.
+- `banner` - The banner comment placed at the top of the output barrel file. Defaults to a "do not edit" message.
 
 ### Custom templates
 
