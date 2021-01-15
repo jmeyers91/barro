@@ -63,7 +63,7 @@ You can include custom barrel templates in your barrel config file using the `te
 
 #### Custom handlebars template
 
-You can use [handlebars](https://www.npmjs.com/package/handlebars) templates to generate custom barrels.
+You can use [handlebars](https://www.npmjs.com/package/handlebars) templates to generate custom barrels:
 
 ```js
 const { readFileSync } = require("fs");
@@ -83,7 +83,7 @@ module.exports = ({ Handlebars }) => {
 
 #### Custom function template
 
-You can use plain JS functions to generate custom barrels.
+You can use plain JS functions to generate custom barrels:
 
 ```js
 module.exports = () => [
