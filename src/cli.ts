@@ -83,12 +83,12 @@ async function main() {
     if (watch) {
       console.log("Watching barrels");
       for (const barrelConfig of barrelConfigs) {
-        watchBarrelFiles(barrelConfig, async (eventType, path) => {
+        watchBarrelFiles(barrelConfig, async (eventType, path, isCancelled) => {
           console.log(
             `Change detected: ${eventType} ${path} - compiling barrel file ${barrelConfig.out}`
           );
           const barrelSource = await compileBarrel(barrelConfig);
-          if (write) {
+          if (write && !isCancelled()) {
             writeFileSync(barrelConfig.out, barrelSource, "utf8");
           }
         });
