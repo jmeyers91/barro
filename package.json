@@ -1,6 +1,6 @@
 {
   "name": "barro",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "MIT",
   "main": "lib/index.js",
   "bin": "lib/cli.js",
@@ -21,7 +21,8 @@
   "homepage": "https://github.com/jmeyers91/barro#readme",
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "tsc && chmod +x lib/cli.js"
+    "build": "tsc && chmod +x lib/cli.js",
+    "publish": "npm run build && npm publish"
   },
   "devDependencies": {
     "@types/globby": "^9.1.0",
