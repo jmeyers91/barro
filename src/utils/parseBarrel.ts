@@ -1,5 +1,6 @@
 import path from "path";
 import { Barrel } from "../types/Barrel";
+import { BarrelTemplateFn } from "../types/BarrelTemplateFn";
 import { parseStringArray } from "./parseStringArray";
 
 export function parseBarrels(value: unknown): Barrel[] {
@@ -14,10 +15,14 @@ export function parseBarrel(value: unknown): Barrel {
     throw new Error("Invalid barrel config. Config must be an object.");
   }
 
-  const { out, matchDirectory, match, matchIgnore, template, banner } = value as Record<
-    string,
-    unknown
-  >;
+  const {
+    out,
+    matchDirectory,
+    match,
+    matchIgnore,
+    template,
+    banner,
+  } = value as Record<string, unknown>;
 
   if (typeof out !== "string") {
     throw new Error(`Expected out to be a string. Got ${typeof out}.`);
@@ -38,8 +43,11 @@ export function parseBarrel(value: unknown): Barrel {
     ? parseStringArray(matchIgnore, "matchIgnore")
     : undefined;
 
-  const parsedTemplate = (typeof template === "string" || typeof template === "function") ? template : undefined;
-  
+  const parsedTemplate =
+    typeof template === "string" || typeof template === "function"
+      ? (template as string | BarrelTemplateFn)
+      : undefined;
+
   const parsedBanner = typeof banner === "string" ? banner : undefined;
 
   return {
