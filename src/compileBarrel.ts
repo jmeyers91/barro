@@ -10,7 +10,7 @@ export async function compileBarrel(barrel: Barrel): Promise<string> {
   const files = await findBarrelFiles(barrel);
   const barrelSrc = templateFn({ files });
 
-  return `${barrel.banner ?? defaultBanner}${barrelSrc}\n`;
+  return `${barrel.banner ?? defaultBanner}${barrelSrc}`;
 }
 
 function getBarrelTemplateFn(barrel: Barrel): BarrelTemplateFn {
