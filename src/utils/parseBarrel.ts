@@ -16,6 +16,7 @@ export function parseBarrel(value: unknown): Barrel {
   }
 
   const {
+    barro: configWrapper,
     out,
     matchDirectory,
     match,
@@ -23,6 +24,15 @@ export function parseBarrel(value: unknown): Barrel {
     template,
     banner,
   } = value as Record<string, unknown>;
+
+  /**
+   * Check if the config has a top-level `barro` key.
+   * If it does, use that as the config.
+   * This is needed to use package.json as a barro config.
+   */
+  if (configWrapper) {
+    return parseBarrel(configWrapper);
+  }
 
   if (typeof out !== "string") {
     throw new Error(`Expected out to be a string. Got ${typeof out}.`);
