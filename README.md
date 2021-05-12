@@ -37,6 +37,12 @@ Alternatively, you can pass the path of your barro config file:
 npx barro barrel-config.js --write --watch
 ```
 
+Alternatively, you can define your barro config in your `package.json` as `barro`:
+
+```
+npx barro package.json --write --watch
+```
+
 ## Config
 
 - `out` - The path the barrel file should be written to.
