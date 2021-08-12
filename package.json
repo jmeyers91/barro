@@ -1,6 +1,6 @@
 {
   "name": "barro",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "license": "MIT",
   "main": "lib/index.js",
   "bin": "lib/cli.js",
