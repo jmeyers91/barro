@@ -7,8 +7,8 @@ export function parseBarrels(value: unknown): Barrel[] {
   if (Array.isArray(value)) {
     return value.map((v) => parseBarrel(v));
   }
-  if (value && Array.isArray((value as any).barrels)) {
-    return (value as any).barrels.map(parseBarrel);
+  if (value && Array.isArray((value as any).barro)) {
+    return (value as any).barro.map(parseBarrel);
   }
   return [parseBarrel(value)];
 }
